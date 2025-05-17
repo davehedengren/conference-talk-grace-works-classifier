@@ -1,0 +1,16 @@
+# Environment variables
+.env
+
+# Python virtual environment
+.venv/
+
+# Conference talk data
+conference_talks/
+
+# Output files
+output/
+
+# OS-specific files
+.DS_Store
+*.pyc
+__pycache__/ 

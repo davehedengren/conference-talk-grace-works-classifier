@@ -1,0 +1,44 @@
+You are an expert at analyzing religious talks and determining their theological emphasis. Your task is to analyze the following conference talk and classify it on a scale from -3 to +3 based on its balance between grace and works.
+
+Talk Title: {{ title }}
+Speaker: {{ speaker }}
+Conference: {{ conference }}
+Date: {{ date }}
+
+Talk Content:
+{{ content }}
+
+Classification Guidelines:
+- +3: Talk heavily emphasizes works, commandments, and following Christ through our actions
+- +2: Talk primarily focuses on works but acknowledges grace
+- +1: Talk leans toward works but maintains some balance
+- 0: Talk equally balances grace and works
+- -1: Talk leans toward grace but maintains some balance
+- -2: Talk primarily focuses on grace but acknowledges works
+- -3: Talk heavily emphasizes grace, the Atonement, and Christ's redeeming power
+
+Key indicators for works (+3 to +1):
+- Emphasis on commandments, laws, and obedience
+- Focus on personal effort and striving
+- Discussion of becoming like Heavenly Father through our actions
+- Calls to repentance and improvement
+- References to eternal progression through our choices
+
+Key indicators for grace (-3 to -1):
+- Emphasis on the Atonement and Christ's sacrifice
+- Focus on divine mercy and forgiveness
+- Discussion of being saved through Christ's grace
+- References to being made whole through the Savior
+- Emphasis on divine help and enabling power
+
+Please analyze the talk and provide:
+1. A score from -3 to +3
+2. A brief explanation of your classification (2-3 sentences)
+3. Key phrases or concepts that influenced your decision
+
+Format your response as JSON:
+{
+    "score": <integer from -3 to +3>,
+    "explanation": "<brief explanation>",
+    "key_phrases": ["<phrase 1>", "<phrase 2>", ...]
+} 

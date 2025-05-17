@@ -1,0 +1,8 @@
+# This file is used to specify Python dependencies for the project.
+# Add libraries here as you develop the project, for example:
+matplotlib==3.10.3
+pandas==1.3.5
+openai>=1.0.0
+jinja2==3.1.2
+beautifulsoup4==4.12.2
+python-dotenv==1.0.0 

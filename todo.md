@@ -1,0 +1,31 @@
+# Todo List: Conference Talk Grace-Works Classifier
+
+- [x] **Project Setup**
+    - [x] Initialize project structure (e.g., create main script file, `conference_talks` directory).
+    - [x] Set up virtual environment and install necessary libraries (e.g., for LLM interaction, CSV handling, data analysis). (Created `requirements.txt`)
+- [x] **File Handling & Data Extraction**
+    - [x] Implement function to read conference talk files from the `conference_talks` folder. (Implemented in `classifier.py`)
+    - [x] Implement function to extract the conference date (year and month) from the talk's filename. (Implemented assuming filename pattern `YYYY_MM_ConferenceName_...` in `classifier.py`)
+    - [x] Implement function to extract the body text from each talk file. (Implemented basic file read in `classifier.py`, actual parsing might need more work depending on file content)
+- [x] **LLM Interaction**
+    - [x] Define clear guidelines for the LLM to classify the talk's grace-works balance (-3 to +3). (Placeholder guideline string in `classifier.py`)
+    - [x] Implement function to send the talk text and guidelines to the LLM API. (Implemented dummy/placeholder function in `classifier.py`)
+    - [x] Implement function to parse the LLM's JSON response to get the integer score. (Dummy function returns int directly)
+    - [ ] Add error handling for LLM API calls (e.g., network issues, invalid responses). (Basic structure, actual LLM error handling pending real implementation)
+- [x] **CSV Generation**
+    - [x] Implement function to create a CSV file. (Implemented in `classifier.py`)
+    - [x] Write headers to the CSV: `filename`, `year`, `month`, `conference_name`, `text_preview`, `score`. (Implemented in `classifier.py`)
+    - [x] Append data for each talk to the CSV. (Implemented in `classifier.py`)
+- [x] **Data Analysis**
+    - [x] Implement function to read the generated CSV. (Implemented in `classifier.py`)
+    - [x] Calculate the average grace-works score for each conference. (Implemented in `classifier.py`)
+    - [x] Implement logic to show how the balance between grace and works changes over time. (Printed to console; Matplotlib example code provided in comments in `classifier.py`)
+- [ ] **Main Program Logic**
+    - [x] Create the main script to orchestrate all the steps: read files, extract data, classify, write CSV, analyze. (Implemented in `classifier.py`)
+- [ ] **Testing & Refinement**
+    - [ ] Test with a few sample talk files. (Script includes creating dummy files for basic testing)
+    - [ ] Refine LLM prompts/guidelines if classification results are not as expected. (Pending real LLM integration)
+    - [ ] Test edge cases (e.g., empty files, files with missing metadata, LLM API errors). (Some basic handling, more needed for robustness)
+- [ ] **Documentation**
+    - [x] Update `README.md` with final usage instructions and classification guidelines.
+    - [ ] Add comments to the code where necessary. (Initial comments added) 
