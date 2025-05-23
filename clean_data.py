@@ -29,6 +29,82 @@ def clean_speaker_name_basic(name: str) -> str:
     
     return cleaned_name
 
+def fix_utf8_encoding_issues(text: str) -> str:
+    """
+    Fix common UTF-8 double-encoding issues in text.
+    
+    Handles cases where text was UTF-8, read as Latin-1, then re-encoded as UTF-8.
+    Common patterns:
+    - Ã¶ → ö (o-umlaut)
+    - Ã¤ → ä (a-umlaut)  
+    - Ã¼ → ü (u-umlaut)
+    - Ã© → é (e-acute)
+    - Ã± → ñ (n-tilde)
+    - â → " or ' or – (various quotes/dashes)
+    """
+    if not isinstance(text, str):
+        return text
+    
+    # Dictionary of common UTF-8 encoding fixes
+    encoding_fixes = {
+        # Umlauts and accented characters
+        'Ã¶': 'ö',  # o-umlaut
+        'Ã¤': 'ä',  # a-umlaut
+        'Ã¼': 'ü',  # u-umlaut
+        'Ã–': 'Ö',  # O-umlaut
+        'Ã„': 'Ä',  # A-umlaut
+        'Ãœ': 'Ü',  # U-umlaut
+        'Ã©': 'é',  # e-acute
+        'Ã¨': 'è',  # e-grave
+        'Ã¡': 'á',  # a-acute
+        'Ã ': 'à',  # a-grave
+        'Ã­': 'í',  # i-acute
+        'Ã³': 'ó',  # o-acute
+        'Ãº': 'ú',  # u-acute
+        'Ã±': 'ñ',  # n-tilde
+        'Ã§': 'ç',  # c-cedilla
+        
+        # Quote and punctuation marks
+        'â': '"',   # Left double quotation mark
+        'â': '"',   # Right double quotation mark
+        'â': "'",   # Left single quotation mark  
+        'â': "'",   # Right single quotation mark
+        'â': '–',   # En dash
+        'â': '—',   # Em dash
+        'â¦': '…',  # Horizontal ellipsis
+        'â¢': '•',  # Bullet
+        
+        # Other common issues
+        'Â': '',    # Standalone  (often garbage)
+        'Ãâ': 'À',  # A-grave (alternative encoding)
+    }
+    
+    # Apply fixes
+    fixed_text = text
+    for wrong, correct in encoding_fixes.items():
+        fixed_text = fixed_text.replace(wrong, correct)
+    
+    # Additional cleanup for any remaining  characters followed by spaces
+    fixed_text = re.sub(r'Â+\s*', ' ', fixed_text)
+    fixed_text = re.sub(r'\s+', ' ', fixed_text).strip()
+    
+    return fixed_text
+
+def clean_text_comprehensive(text: str) -> str:
+    """
+    Comprehensive text cleaning that combines encoding fixes and basic cleaning.
+    """
+    if not isinstance(text, str):
+        return text
+    
+    # First fix UTF-8 encoding issues
+    text = fix_utf8_encoding_issues(text)
+    
+    # Then apply basic cleaning
+    text = clean_speaker_name_basic(text)
+    
+    return text
+
 def build_name_standardization_map(unique_names: list, threshold: int) -> dict:
     """
     Builds a map to standardize similar names. 
@@ -108,31 +184,52 @@ def main():
         print(f"Error: Column '{COLUMN_TO_CLEAN}' not found. Cannot clean.")
         return
 
-    # 1. Apply basic cleaning first (whitespace, specific characters like Â)
-    print(f"Applying basic cleaning to column: '{COLUMN_TO_CLEAN}'...")
-    df[COLUMN_TO_CLEAN] = df[COLUMN_TO_CLEAN].apply(lambda x: clean_speaker_name_basic(x) if pd.notna(x) else x)
-    print(f"Finished basic cleaning.")
-
-    # 2. Build and apply standardization map for fuzzy matches
-    unique_names_after_basic_clean = list(df[COLUMN_TO_CLEAN].dropna().unique())
+    # 1. Apply comprehensive text cleaning to multiple columns
+    text_columns_to_clean = [
+        COLUMN_TO_CLEAN,  # speaker_name_from_html
+        'text_preview',   # Main text content
+        'explanation',    # LLM explanation
+        'key_phrases',    # Key phrases
+        'talk_identifier', # Talk titles
+    ]
     
-    if not unique_names_after_basic_clean:
-        print("No unique names found after basic cleaning to standardize.")
-    else:
-        name_map = build_name_standardization_map(unique_names_after_basic_clean, SIMILARITY_THRESHOLD_FOR_STANDARDIZATION)
-        
-        original_names_count = len(unique_names_after_basic_clean)
-        standardized_names_count = len(set(name_map.values()))
-        
-        print(f"Applying standardization map to '{COLUMN_TO_CLEAN}'...")
-        df[COLUMN_TO_CLEAN] = df[COLUMN_TO_CLEAN].map(name_map).fillna(df[COLUMN_TO_CLEAN])
-        print(f"Finished standardization. Number of unique names reduced from {original_names_count} to {standardized_names_count}.")
+    # Only clean columns that exist in the DataFrame
+    existing_text_columns = [col for col in text_columns_to_clean if col in df.columns]
+    
+    print(f"Applying comprehensive text cleaning (UTF-8 encoding fixes + basic cleaning)...")
+    print(f"Cleaning columns: {existing_text_columns}")
+    
+    for column in existing_text_columns:
+        print(f"  Cleaning column: '{column}'...")
+        df[column] = df[column].apply(lambda x: clean_text_comprehensive(x) if pd.notna(x) else x)
+    
+    print(f"Finished comprehensive text cleaning.")
 
-    # Add more cleaning steps for other columns if needed here
+    # 2. Build and apply standardization map for speaker names specifically
+    if COLUMN_TO_CLEAN in existing_text_columns:
+        unique_names_after_clean = list(df[COLUMN_TO_CLEAN].dropna().unique())
+        
+        if not unique_names_after_clean:
+            print("No unique names found after cleaning to standardize.")
+        else:
+            name_map = build_name_standardization_map(unique_names_after_clean, SIMILARITY_THRESHOLD_FOR_STANDARDIZATION)
+            
+            original_names_count = len(unique_names_after_clean)
+            standardized_names_count = len(set(name_map.values()))
+            
+            print(f"Applying standardization map to '{COLUMN_TO_CLEAN}'...")
+            df[COLUMN_TO_CLEAN] = df[COLUMN_TO_CLEAN].map(name_map).fillna(df[COLUMN_TO_CLEAN])
+            print(f"Finished standardization. Number of unique names reduced from {original_names_count} to {standardized_names_count}.")
 
     try:
         df.to_csv(OUTPUT_CSV_PATH, index=False)
         print(f"Successfully cleaned and standardized data, saved to: {OUTPUT_CSV_PATH}")
+        
+        # Print some examples of fixes made
+        print(f"\nSample of cleaned data:")
+        sample_columns = ['speaker_name_from_html', 'text_preview'] if 'text_preview' in df.columns else ['speaker_name_from_html']
+        print(df[sample_columns].head(3).to_string())
+        
     except Exception as e:
         print(f"Error writing cleaned data to CSV: {e}")
 
