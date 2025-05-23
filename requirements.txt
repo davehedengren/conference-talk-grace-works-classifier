@@ -2,7 +2,7 @@
 # Add libraries here as you develop the project, for example:
 # Core dependencies for production deployment
 matplotlib==3.8.4
-pandas>=1.4.0,<2.2.0
+pandas>=1.4.0,<2.3.0
 openai>=1.0.0,<2.0.0
 jinja2==3.1.2
 beautifulsoup4==4.12.2

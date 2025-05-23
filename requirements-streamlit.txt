@@ -1,6 +1,7 @@
 # Minimal requirements for Streamlit Cloud deployment
+# Python 3.13 compatible versions (pandas 2.2.0+ required for Python 3.13)
 # Core data processing
-pandas>=1.4.0,<2.2.0
+pandas>=1.4.0,<2.3.0
 numpy>=1.21.0,<2.0.0
 
 # Streamlit and visualization
