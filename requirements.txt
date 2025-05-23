@@ -1,40 +1,41 @@
 # This file is used to specify Python dependencies for the project.
 # Add libraries here as you develop the project, for example:
-matplotlib==3.10.3
-pandas>=1.4.0,<3
-openai>=1.0.0
+# Core dependencies for production deployment
+matplotlib==3.8.4
+pandas>=1.4.0,<2.2.0
+openai>=1.0.0,<2.0.0
 jinja2==3.1.2
 beautifulsoup4==4.12.2
 python-dotenv==1.0.0 
 tiktoken==0.9.0
 streamlit==1.39.0
 tqdm==4.66.6
-altair==5.4.1
-wordcloud # For generating word cloud images
+altair==5.3.0  # Fixed: Use stable version compatible with Python 3.9-3.12
+wordcloud==1.9.3  # Added version for stability
 lxml==5.3.0
 
-# Development dependencies
+# Development dependencies (optional for production)
 mypy==1.11.2
 pytest==8.3.2
 pytest-mock==3.12.0
 
-# Code quality and formatting
+# Code quality and formatting (optional for production)
 black==24.10.0
 isort==5.13.2
 flake8==7.1.1
 
-# Security and dependency checking
+# Security and dependency checking (optional for production)
 bandit==1.7.10
 safety==3.2.8
 
-# Performance testing
+# Performance testing (optional for production)
 pytest-benchmark==4.0.0
 
-# Coverage reporting
+# Coverage reporting (optional for production)
 coverage==7.6.7
 
 # Structured logging
 structlog==25.1.0
 
-# Pre-commit hooks
+# Pre-commit hooks (optional for production)
 pre-commit==4.2.0
