@@ -4,7 +4,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 
 # --- Data Loading (copied from main streamlit_app.py for this page) ---
-DATA_PATH = 'output/labeled_conference_talks_with_speaker_names_20250520.csv' # Ensure this is your latest cleaned file
+DATA_PATH = 'output/cleaned_conference_talks_data.csv' # Ensure this is your latest cleaned file
 
 @st.cache_data
 def load_data(path):
