@@ -26,7 +26,6 @@
 
 ### Multiple Interfaces
 - **Production Classifier**: `classifier_production.py` with structured logging and enhanced error handling
-- **Optimized Classifier**: `classifier_optimized.py` with progress tracking and caching
 - **Batch Processing**: Generate JSONL files for OpenAI's batch API
 - **Interactive Dashboard**: Streamlit web application for data exploration
 
@@ -65,7 +64,7 @@
 
 ### Basic Usage
 
-#### 1. Process Conference Talks (Production)
+#### 1. Process Conference Talks
 
 ```bash
 # Process all talks with structured logging
@@ -235,7 +234,6 @@ ENVIRONMENT=production                # development, staging, production
 
 ### CLI Options
 
-#### Production Classifier Options
 ```bash
 python classifier_production.py [OPTIONS]
 

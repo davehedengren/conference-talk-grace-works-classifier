@@ -128,4 +128,39 @@ conference-talk-classifier/
 
 ---
 
-**This archive represents the evolution from prototype to enterprise-grade application over 5 weeks of systematic improvements.** 
+**This archive represents the evolution from prototype to enterprise-grade application over 5 weeks of systematic improvements.**
+
+## 📁 What's Archived
+
+### `original_versions/`
+- **`classifier.py`** - Original implementation (573 lines) 
+  - Single-file monolithic design
+  - Direct OpenAI API calls without error handling
+  - Basic CSV output
+  - No type hints or validation
+  - Replaced by: Three specialized, production-ready versions
+
+- **`classifier_refactored.py`** - Refactored version with type safety (468 lines)
+  - Modular architecture with imported processors  
+  - Type-safe dataclasses
+  - Basic error handling
+  - Incremental CSV writing
+  - Enhanced by: Optimized and production versions
+
+- **`classifier_optimized.py`** - Optimized version with progress tracking (586 lines)
+  - Progress bars and user experience improvements
+  - Classification caching for performance
+  - Rate limiting and batch processing
+  - Advanced CLI options
+  - Enhanced by: Production version with structured logging
+
+- **`streamlit_app.py`** - Original Streamlit dashboard (146 lines)
+  - Basic visualization capabilities
+  - No type hints
+  - Limited error handling  
+  - Replaced by: `streamlit_app_typed.py` with comprehensive type safety
+
+- **`todo.md`** - Original development task list
+  - Tracked project evolution from Week 1-4
+  - Contained 43 development tasks
+  - Replaced by: Professional issue tracking and documentation 
