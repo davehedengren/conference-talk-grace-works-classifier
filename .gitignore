@@ -9,6 +9,8 @@ conference_talks/
 
 # Output files
 output/
+# But include the cleaned sample data
+!output/cleaned_conference_talks_data.csv
 
 # OS-specific files
 .DS_Store
