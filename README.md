@@ -42,8 +42,8 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/example/conference-talk-classifier.git
-   cd conference-talk-classifier
+   git clone https://github.com/davehedengren/conference-talk-grace-works-classifier.git
+   cd conference-talk-grace-works-classifier
    ```
 
 2. **Set up virtual environment**
@@ -59,7 +59,7 @@
 
 4. **Configure environment variables**
    ```bash
-   cp .env.example .env
+   cp env.example .env
    # Edit .env with your OpenAI API key
    ```
 
@@ -92,6 +92,59 @@ streamlit run streamlit_app_typed.py
 ```bash
 python classifier_production.py --generate-batch-input batch_requests.jsonl --num-talks 50
 ```
+
+## 🌐 Deployment
+
+### Streamlit Cloud
+
+1. **Fork or clone** this repository to your GitHub account
+
+2. **Connect to Streamlit Cloud**:
+   - Go to [share.streamlit.io](https://share.streamlit.io)
+   - Connect your GitHub account
+   - Select this repository
+   - Set main file: `streamlit_app_typed.py`
+
+3. **Configure requirements** (if deployment fails):
+   - Streamlit Cloud will automatically use `requirements.txt`
+   - For compatibility issues, create a custom `requirements.txt` using our `requirements-streamlit.txt` as a template
+   - The app includes sample data and works without OpenAI API keys for exploration
+
+4. **Environment variables** (optional for live classification):
+   - Add `OPENAI_API_KEY` in Streamlit Cloud secrets
+   - The dashboard works with included sample data without API access
+
+### Local Development
+
+```bash
+# Install all dependencies (including dev tools)
+pip install -r requirements.txt
+
+# Run with live reloading
+streamlit run streamlit_app_typed.py
+
+# Run tests
+pytest
+
+# Format code
+black .
+isort .
+```
+
+### Docker Deployment (Future)
+
+```bash
+# Coming soon: Docker containerization for easy deployment
+docker build -t conference-classifier .
+docker run -p 8501:8501 conference-classifier
+```
+
+### Deployment Notes
+
+- **Sample Data Included**: The app works immediately with included sample data (`output/cleaned_conference_talks_data.csv`)
+- **API Key Optional**: OpenAI API key only needed for live classification of new talks
+- **Python Compatibility**: Tested on Python 3.9-3.12, optimized for cloud deployment
+- **Memory Usage**: Dashboard handles 4,000+ talks efficiently with caching
 
 ## 📊 Sample Output
 
