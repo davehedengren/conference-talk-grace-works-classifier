@@ -94,7 +94,25 @@ python classifier_production.py --generate-batch-input batch_requests.jsonl --nu
 
 ## 🌐 Deployment
 
-### Streamlit Cloud
+### Replit (Recommended - Always Online)
+
+1. **Import to Replit**:
+   - Go to [replit.com](https://replit.com)
+   - Click "Create Repl" → "Import from GitHub"
+   - Paste your repository URL
+   - Replit will automatically detect the configuration
+
+2. **Environment variables** (optional for live classification):
+   - In your Repl, go to the "Secrets" tab (lock icon in sidebar)
+   - Add `OPENAI_API_KEY` with your API key value
+   - The dashboard works with included sample data without API access
+
+3. **Run the app**:
+   - Click the "Run" button
+   - Your app will be available at the provided URL
+   - Replit keeps apps running 24/7 with the paid plan
+
+### Streamlit Cloud (Alternative)
 
 1. **Fork or clone** this repository to your GitHub account
 
